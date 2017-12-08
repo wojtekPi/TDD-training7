@@ -12,7 +12,7 @@ public class StringCalculatorTest {
     public void shouldCreateObject() throws Exception {
         StringCalculator testedObject = new StringCalculator();
         assertThat(testedObject).isNotNull();
-        assertThat(testedObject.Add("")).isEqualTo(0);
+        assertThat(testedObject.Add("")).isEqualTo(1);
     }
 
 }
