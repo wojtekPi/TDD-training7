@@ -55,7 +55,8 @@ public class StringCalculatorTest {
                 {"0,1", 1},
                 {"0", 0},
                 {"",0},
-                {"1", 1}
+                {"1", 1},
+                {"10,10", 20}
         };
     }
     @Test
