@@ -28,7 +28,10 @@ public class StringCalculatorTest {
                 {"1,2",3},
                 {"1,0",1},
                 {"2,3,15",20},
-                {"",0}
+                {"",0},
+                {"1\n2,3",6},
+                {"//;1;1;1",3},
+                {"//v2v1v1",4}
         };
     }
 
@@ -40,6 +43,9 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(expectedOutput);
     }
+
+
+
 /*
     @Test
     public void shouldCreateObject() throws Exception {
