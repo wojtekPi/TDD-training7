@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -33,5 +35,28 @@ public class StringCalculatorTest {
         int result = testedObject.Add("1");
 
         assertThat(result).isEqualTo(1);
+    }
+    @Test
+    public void shouldReturnThreWhenOneAndTwoPassed() {
+        int result = testedObject.Add("1,2");
+
+        assertThat(result).isEqualTo(3);
+    }
+
+    @Test
+
+    public void shouldBeAbleToHandleUnknowAmountOfNumbers() {
+        StringBuilder input = new StringBuilder();
+        Random random = new Random();
+        int iteration = random.nextInt(30)+1;
+        int sum = 0;
+        for (int i = 0; i < iteration; i++) {
+            int number = random.nextInt();
+            input.append(number).append(",");
+            sum +=number;
+        }
+        int result = testedObject.Add(input.toString());
+
+        assertThat(result).isEqualTo(sum);
     }
 }
