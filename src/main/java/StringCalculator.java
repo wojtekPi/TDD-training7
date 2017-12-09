@@ -1,9 +1,17 @@
 public class StringCalculator {
 
     public int Add(String numbers) {
-        if(numbers.equals("1")){
-            return 1;
+
+        int sum = 0;
+
+        for(int i = 0; i < numbers.length(); i++) {
+            if(numbers.charAt(i) == ',')
+            if(Character.isDigit(numbers.charAt(i))) {
+                sum += Integer.parseInt(numbers.charAt(i) + "");
+            }
         }
-        return 0;
+        return sum;
     }
+
+
 }
