@@ -39,6 +39,7 @@ public class StringCalculatorTest {
     @Parameters(method = "parametersForTestingTwoNumbersInInput")
     @TestCaseName("Should return {1} when {0} passed")
     public void shouldReturnSumWhenTwoNumbersPassed(String inPut, int value) {
+
         int result = testedObject.Add(inPut);
 
         assertThat(result).isEqualTo(value);
