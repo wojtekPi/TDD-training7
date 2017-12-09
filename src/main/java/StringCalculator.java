@@ -1,27 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringCalculator {
 
-    public static final String SEPARATOR = ",";
     public static final String EMPTY_STRING = "";
+    public static final String SEPARATOR = ",";
 
     public int Add(String numbers) {
-        if (numbers.equals("1")) {
-            return 1;
-        }
-        if (numbers.equals(EMPTY_STRING)||numbers.equals("0")){
+       String[] arrayOfNumbers = numbers.split(SEPARATOR);
+       int sum = 0;
+        if (numbers.equals(EMPTY_STRING)){
             return 0;
+        } else {
+            for (int i = 0; i < arrayOfNumbers.length; i++) {
+                Integer parsedNumber = Integer.valueOf(arrayOfNumbers[i]);
+                sum += parsedNumber;
+            }
         }
-
-        String[] tempArr = numbers.split(SEPARATOR);
-
-        int[] numbersArr = new int[tempArr.length];
-
-        int result = 0;
-
-        for (int i = 0; i < tempArr.length; i++) {
-            numbersArr[i] = Integer.parseInt(tempArr[i]);
-            result += numbersArr[i];
-        }
-
-        return result;
+        return sum;
     }
 }
