@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,11 +9,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringCalculatorTest {
 
-    @Test
-    public void shouldCreateObject() throws Exception {
-        StringCalculator testedObject = new StringCalculator();
-        assertThat(testedObject).isNotNull();
-        assertThat(testedObject.Add("")).isEqualTo(0);
+    StringCalculator testedObject;
+
+    @Before
+    public void setUp(){
+        testedObject = new StringCalculator();
     }
 
+    @Test
+    public void shouldCreateObject() throws Exception {
+        assertThat(testedObject).isNotNull();
+    }
+
+    @Test
+    public void shouldReturnZeroWhenEmptyStringPassed() {
+        int result = testedObject.Add("");
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldReturnOneWhenOnePassed() throws Exception {
+        int result = testedObject.Add("1");
+
+        assertThat(result).isEqualTo(1);
+    }
 }
