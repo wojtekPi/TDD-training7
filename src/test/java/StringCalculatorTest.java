@@ -62,7 +62,7 @@ public class StringCalculatorTest {
     @Parameters(method = "parametersFortestingTwoNumbersInInput")
     @TestCaseName("Should return {1} when {0} passed")
 
-    public void shouldReturnThreWhenOneAndTwoPassed(String input, int expectedOutput) {
+    public void shouldReturnCorrectResultWhenEmptyStringOneNumberOrMoreNumbersArePassed(String input, int expectedOutput) {
         int result = testedObject.Add(input);
 
         assertThat(result).isEqualTo(expectedOutput);
