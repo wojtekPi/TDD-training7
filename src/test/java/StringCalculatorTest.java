@@ -12,7 +12,7 @@ public class StringCalculatorTest {
     StringCalculator testedObject;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testedObject = new StringCalculator();
     }
 
@@ -34,4 +34,15 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    public void shouldReturnSumTwoNumberWhenTwoNumberPassed() {
+        int result = testedObject.Add("20,4,2,3,4,5,1,2");
+
+        assertThat(result).isEqualTo(41);
+
+
+    }
 }
+   
+    
