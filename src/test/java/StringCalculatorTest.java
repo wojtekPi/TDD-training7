@@ -1,5 +1,6 @@
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import junitparams.naming.TestCaseName;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +64,7 @@ public class StringCalculatorTest {
 
     @Test
     @Parameters(method = "parametersForTestingAnyNumbersInInput")
+    @TestCaseName("Should return {1} when {0} passed. ")
     public void shouldReturnCorrectResultWhenTwoNumberPassed(String input, int expectedOutput) {
         int result = testedObject.Add(input);
 
