@@ -34,4 +34,20 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+
+    public void shouldReturnSumWhenTwoNumbersPassed() {
+        int result = testedObject.Add("1,2");
+
+        assertThat(result).isEqualTo(3);
+    }
+
+    @Test
+
+    public void shouldReturnSumOfNumbersPassed(){
+        int result = testedObject.Add("2,3,15");
+
+        assertThat(result).isEqualTo(20);
+    }
 }
