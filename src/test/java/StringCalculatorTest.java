@@ -31,6 +31,13 @@ public class StringCalculatorTest {
     }
 
     @Test
+    public void shouldReturnZerowhenZeroPassed() throws Exception {
+        int result = testedObject.Add("0");
+
+        assertThat(result).isEqualTo(0);
+    }
+
+    @Test
     public void shouldReturnOneWhenOnePassed() throws Exception {
         int result = testedObject.Add("1");
 
