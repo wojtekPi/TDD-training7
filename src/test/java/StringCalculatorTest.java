@@ -34,4 +34,25 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    public void shouldReturnThreeWhenOneAndTwoPassed() {
+        int result = testedObject.Add("1,2");
+
+        assertThat(result).isEqualTo(3);
+    }
+
+    @Test
+    public void shouldReturnSevenWhenAllNumberAddPassed() {
+        int result = testedObject.Add("1,2,3,1");
+
+        assertThat(result).isEqualTo(7);
+    }
+
+    @Test
+    public void shouldReturnSixWhenAddPassed() {
+        int result = testedObject.Add("1\n2,3");
+
+        assertThat(result).isEqualTo(6);
+    }
 }
