@@ -11,8 +11,25 @@ public class StringCalculatorTest {
     @Test
     public void shouldCreateObject() throws Exception {
         StringCalculator testedObject = new StringCalculator();
+
+        int result = testedObject.Add("");
+        
         assertThat(testedObject).isNotNull();
-        assertThat(testedObject.Add("")).isEqualTo(0);
     }
+
+    @Test
+
+    public void shouldReturnZeroWhenEmptyStringPassed(){
+        StringCalculator testedOject = new StringCalculator ();
+
+        int result = testedOject.Add("");
+
+
+        assertThat(result).isEqualTo(0);
+
+
+    }
+
+
 
 }
