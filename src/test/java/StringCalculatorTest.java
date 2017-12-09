@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.in;
 
 public class StringCalculatorTest {
 
-    StringCalculator testedObject;
+    private StringCalculator testedObject;
 
     @Before
     public void setUp(){
