@@ -38,10 +38,6 @@ public class PaymentServiceTest {
         int howmuch = 1500;
         testedObject1.transferMoney(account1, account2, howmuch);
 
-//        //assertThat(account1.getAmount()).isEqualTo(-500);
-//        if (account1.getAmount()<howmuch) {
-//            throw new IllegalArgumentException();
-//        }
-assertThat(account1.getAmount()).isLessThan(1500);
+        assertThat(account1.getAmount()).isLessThan(1500);
     }
 }
