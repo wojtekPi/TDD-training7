@@ -4,6 +4,7 @@ import junitparams.naming.TestCaseName;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,18 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JUnitParamsRunner.class)
 public class StringCalculatorTest {
-    
-    StringCalculator testedObject;
 
-    private Object[][] parametersForTestingTwoNumbersInInput() {
-        return new Object[][] {
-                {"1,2", 3},
-                {"1,0", 1},
-                {"2,3,15", 20},
-                {"", 0},
-                {"1", 1},
-        };
-    }
+    StringCalculator testedObject;
 
     @Before
     public void setUp(){
@@ -100,7 +91,14 @@ public class StringCalculatorTest {
     public void shouldReturnSumWhenTwoNumbersPassed() {
         int result = testedObject.Add("1,2");
 
-        assertThat(result).isEqualTo(value);
+        assertThat(result).isEqualTo(3);
     }
 
+    @Test
+
+    public void shouldReturnSumOfNumbersPassed(){
+        int result = testedObject.Add("2,3,15");
+
+        assertThat(result).isEqualTo(20);
+    }
 }
