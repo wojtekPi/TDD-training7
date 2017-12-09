@@ -12,7 +12,7 @@ public class StringCalculatorTest {
     StringCalculator testedObject;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testedObject = new StringCalculator();
     }
 
@@ -34,4 +34,14 @@ public class StringCalculatorTest {
 
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    public void StringAdd() throws Exception {
+        int result = testedObject.Add("1,2");
+
+        assertThat(result).isEqualTo(3);
+    
+    }
+
+
 }
