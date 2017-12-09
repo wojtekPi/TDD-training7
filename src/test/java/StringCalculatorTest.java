@@ -12,7 +12,7 @@ public class StringCalculatorTest {
     StringCalculator testedObject;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testedObject = new StringCalculator();
     }
 
@@ -54,5 +54,13 @@ public class StringCalculatorTest {
         int result = testedObject.Add("1\n2,3");
 
         assertThat(result).isEqualTo(6);
+    }
+
+    @Test
+    public void shouldReturnTheeWhenStartWithDelimeterPassed() {
+        int result = testedObject.Add("//;\\n1;2");
+
+        assertThat(result).isEqualTo(3);
+
     }
 }
