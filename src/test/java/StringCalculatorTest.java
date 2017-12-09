@@ -46,8 +46,8 @@ public class StringCalculatorTest {
     @Test
 
     public void shouldReturnSumOfNumbersPassed(){
-        int result = testedObject.Add("2,3,5");
+        int result = testedObject.Add("2,3,15");
 
-        assertThat(result).isEqualTo(10);
+        assertThat(result).isEqualTo(20);
     }
 }
