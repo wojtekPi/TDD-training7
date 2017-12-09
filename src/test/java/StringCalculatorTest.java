@@ -19,6 +19,7 @@ public class StringCalculatorTest {
     @Test
     public void shouldCreateObject() throws Exception {
         assertThat(testedObject).isNotNull();
+
     }
 
     @Test
@@ -47,6 +48,5 @@ public class StringCalculatorTest {
         int result = testedObject.Add("1,2,4");
 
         assertThat(result).isEqualTo(7);
-    }
 
 }
