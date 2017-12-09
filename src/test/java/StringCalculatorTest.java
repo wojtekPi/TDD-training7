@@ -1,7 +1,14 @@
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import junitparams.naming.TestCaseName;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(JUnitParamsRunner.class)
 
 /**
  * Tdd training on 09.12.17.
@@ -16,6 +23,24 @@ public class StringCalculatorTest {
         testedObject = new StringCalculator();
     }
 
+    private Object [][] parametersForTestingTwoNumbersInInput(){
+        return new Object[][]{
+                {"1,2",3},
+                {"1,0",1},
+                {"2,3,15",20},
+                {"",0}
+        };
+    }
+
+    @Test
+    @Parameters(method = "parametersForTestingTwoNumbersInInput")
+    @TestCaseName("Should return {1} when {0} passed.")
+    public void shouldReturnCorrectResultWhenTwoNumberPassed(String input , int expectedOutput){
+        int result = testedObject.Add(input);
+
+        assertThat(result).isEqualTo(expectedOutput);
+    }
+/*
     @Test
     public void shouldCreateObject() throws Exception {
         assertThat(testedObject).isNotNull();
@@ -49,5 +74,7 @@ public class StringCalculatorTest {
         int result = testedObject.Add("2,3,15");
 
         assertThat(result).isEqualTo(20);
-    }
+    }*/
+
+
 }
