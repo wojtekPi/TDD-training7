@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
 import static bank.Currencies.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -118,9 +117,7 @@ public class PaymentServiceTest {
 
         Account from = new Account(new Instrument(600, PLN));
         Account to = new Account(new Instrument(50, EUR));
-        paymentService.transferMoney(from,
-                to,
-                new Instrument(400, PLN));
+        paymentService.transferMoney(from, to, new Instrument(400, PLN));
 
         assertThat(from.instrument.amount).isEqualTo(200);
         assertThat(from.instrument.curency).isEqualTo(PLN);
