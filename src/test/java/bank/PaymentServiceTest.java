@@ -65,7 +65,7 @@ public class PaymentServiceTest {
         bankAccountTo = new Account(1000);
 
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You don't have enough money");
+        thrown.expectMessage("I'm very sorry, but you don't have enough money...");
         paymentService.transferMoney(bankAccountFrom, bankAccountTo, 300);
     }
 
