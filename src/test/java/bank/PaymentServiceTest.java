@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import static bank.Currencies.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.in;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -22,13 +21,13 @@ public class PaymentServiceTest {
     Account bankAccountFrom;
     PaymentService paymentService;
     Instrument instrument;
-    TransactionDatabase transactionDatabase;
+    TransactionStorage transactionStorage;
 
     @Before
     public void setUp() {
         paymentService = new PaymentService();
-        transactionDatabase = mock(TransactionDatabase.class);
-        paymentService.setTransactionDatabase(transactionDatabase);
+        transactionStorage = mock(TransactionStorage.class);
+        paymentService.setTransactionStorage(transactionStorage);
     }
 
     private Object[][] partametersForTestingInInput() {
@@ -148,6 +147,6 @@ public class PaymentServiceTest {
         Account to = new Account(new Instrument(50, EUR));
 
         paymentService.transferMoney(from, to, instrument);
-        verify(transactionDatabase).save(from, to, instrument);
+        verify(transactionStorage).save(from, to, instrument);
     }
 }

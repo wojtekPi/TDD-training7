@@ -1,6 +1,6 @@
 package bank;
 
-public interface TransactionDatabase {
+public interface TransactionStorage {
 
     void save(Account from, Account to, Instrument instrument);
 }
