@@ -2,10 +2,10 @@ package bank;
 
 public class Account {
 
-    int amount;
+    Instrument instrument;
     String id;
 
-    public Account(int amount) {
-        this.amount = amount;
+    public Account(Instrument instrument) {
+        this.instrument = instrument;
     }
 }
