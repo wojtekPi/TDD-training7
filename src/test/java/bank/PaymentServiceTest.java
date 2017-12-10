@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
@@ -31,6 +32,14 @@ public class PaymentServiceTest {
         };
     }
 
+    private Object[][] parametersForTestingException() {
+        return new Object[][] {
+                {-550, 100},
+                {-750, 100},
+                {-850, 100},
+        };
+    }
+
     @Test
     @Parameters(method = "partametersForTestingInInput")
     @TestCaseName("Should return {3} when {4} passed")
@@ -45,5 +54,20 @@ public class PaymentServiceTest {
         assertThat(bankAccountFrom.amount).isEqualTo(amountFromAfter);
         assertThat(bankAccountTo.amount).isEqualTo(amountToAfter);
     }
+
+
+    @Test
+    @Parameters(method = "parametersForTestingException")
+    @TestCaseName("Should return IllegalAccessException when {0} passed")
+    public void testException(int amountFrom, int value) {
+
+        bankAccountFrom = new Account(amountFrom);
+
+        assertThatThrownBy(() -> paymentService.transferMoney(bankAccountFrom, bankAccountTo, value))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("I'm very sorry, but you don't have enough money...");
+    }
+
+
 
 }
