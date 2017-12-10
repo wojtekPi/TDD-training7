@@ -135,4 +135,52 @@ public class PaymentServiceTest {
         assertThat(to.instrument.curency).isEqualTo(EUR);
         verify(exchangeService, times(1)).convert(instrumentToTransfer, EUR);
     }
+
+    @Test
+    public void shouldCallExchengeServiceWhenDifferentCurrencyInToAccountUsingMockitoSecondTest() {
+        ExchangeService exchangeService = mock(ExchangeService.class);
+        paymentService.setExchangeService(exchangeService);
+
+        Instrument instrumentFrom = new Instrument(600, PLN);
+        Instrument instrumentToTransfer = new Instrument(200, PLN);
+        Instrument instrumentTo = new Instrument(50, EUR);
+        Account from = new Account(instrumentFrom);
+        Account to = new Account(instrumentTo);
+
+        when(exchangeService.convert(eq(instrumentToTransfer), any(Currencies.class)))
+                .thenReturn(new Instrument(50, EUR));
+
+        paymentService.transferMoney(from, to, instrumentToTransfer);
+
+        assertThat(from.instrument.amount).isEqualTo(400);
+        assertThat(from.instrument.curency).isEqualTo(PLN);
+        assertThat(to.instrument.amount).isEqualTo(100);
+        assertThat(to.instrument.curency).isEqualTo(EUR);
+        verify(exchangeService, times(1)).convert(instrumentToTransfer, EUR);
+    }
+    @Test
+    public void shouldWriteTransferHistoryInDatabase(){
+        TransferHistory transferHistory = mock(TransferHistory.class);
+        paymentService.setTransferHistory(transferHistory);
+
+
+        Instrument instrumentFrom = new Instrument(600, PLN);
+        Instrument instrumentTo = new Instrument(300, PLN);
+        Instrument instrumentToTransfer = new Instrument(200, PLN);
+
+        Account from = new Account(instrumentFrom);
+        Account to = new Account(instrumentTo);
+
+        when(transferHistory.save(from, to, instrumentToTransfer))
+                .thenReturn(transferHistory);
+
+
+        paymentService.transferMoney(from, to, instrumentToTransfer);
+
+        assertThat(from.instrument.amount).isEqualTo(400);
+        assertThat(to.instrument.amount).isEqualTo(500);
+        //assertThat(transferFirst).isEqualTo(400PLN, 500PLN, 200 PLN );
+        verify(transferHistory,times (1)).save(from, to, instrumentToTransfer);
+    }
+
 }
