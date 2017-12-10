@@ -40,4 +40,5 @@ public class StringCalculatorTest {
         assertThat(testedObject).isNotNull();
     }
 
+
 }
