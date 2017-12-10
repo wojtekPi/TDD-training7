@@ -46,10 +46,10 @@ public class PaymentServiceTest {
     public void shouldReturnSumWhenTwoNumbersPassed(int amountFrom, int amountTo, int amountFromAfter, int
      amountToAfter, int value) {
 
-        bankAccountFrom = new Account(amountFrom);
-        bankAccountTo = new Account(amountTo);
+        bankAccountFrom = new Account(amountFrom, Currency.EUR);
+        bankAccountTo = new Account(amountTo, Currency.EUR);
 
-        paymentService.transferMoney(bankAccountFrom, bankAccountTo, value);
+        paymentService.transferMoney(bankAccountFrom, bankAccountTo,);
 
         assertThat(bankAccountFrom.amount).isEqualTo(amountFromAfter);
         assertThat(bankAccountTo.amount).isEqualTo(amountToAfter);
@@ -59,11 +59,14 @@ public class PaymentServiceTest {
     @Test
     @Parameters(method = "parametersForTestingException")
     @TestCaseName("Should return IllegalAccessException when {0} passed")
-    public void testException(int amountFrom, int value) {
+    public void testException(int amountFrom) {
 
-        bankAccountFrom = new Account(amountFrom);
 
-        assertThatThrownBy(() -> paymentService.transferMoney(bankAccountFrom, bankAccountTo, value))
+
+        Instrument instrument = new Instrument(300,);
+
+
+        assertThatThrownBy(() -> paymentService.transferMoney(bankAccountFrom, bankAccountTo, instrument,))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("I'm very sorry, but you don't have enough money...");
     }

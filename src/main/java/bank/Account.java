@@ -2,10 +2,27 @@ package bank;
 
 public class Account {
 
-    int amount;
-    //String id;
+    public final int amount;
+    public final Currency currency;
 
-    public Account(int amount) {
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void instrument(){
+
+        Instrument instrument;
+        Currency currency;
+    }
+
+
+    public Account(int amount, Currency currency) {
         this.amount = amount;
+        this.currency = currency;
     }
 }
