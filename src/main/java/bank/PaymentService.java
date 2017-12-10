@@ -3,6 +3,7 @@ package bank;
 public class PaymentService {
 
     private ExchangeService exchangeService;
+    private TransactionStorage transactionStorage;
 
     void transferMoney(Account from, Account to, Instrument instrument)  {
         checkCurrencies(from, to, instrument);
@@ -25,5 +26,9 @@ public class PaymentService {
 
     public void setExchangeService(ExchangeService exchangeService) {
         this.exchangeService = exchangeService;
+    }
+
+    public void setTransactionStorage(TransactionStorage transactionStorage) {
+        this.transactionStorage = transactionStorage;
     }
 }
