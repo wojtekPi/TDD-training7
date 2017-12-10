@@ -10,10 +10,13 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class PaymentServiceTest {
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();
 
     Account bankAccountTo;
     Account bankAccountFrom;
@@ -33,7 +36,13 @@ public class PaymentServiceTest {
         };
     }
     
-
+    private Object[][] parametersForTestingException() {
+        return new Object[][] {
+                {-550, 100},
+                {-750, 100},
+                {-850, 100},
+        };
+    }
 
     @Test
     @Parameters(method = "partametersForTestingInInput")
@@ -50,22 +59,25 @@ public class PaymentServiceTest {
         assertThat(bankAccountTo.amount).isEqualTo(amountToAfter);
     }
 
-    @Rule
-    public ExpectedException thrown= ExpectedException.none();
     @Test
     public void shouldThrowExecptionWhenBalanaceIsTooSmall() {
-        ;
         bankAccountFrom = new Account(-600);
         bankAccountTo = new Account(1000);
-
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You don't have enough money");
         paymentService.transferMoney(bankAccountFrom, bankAccountTo, 300);
+    }
 
+    @Test
+    @Parameters(method = "parametersForTestingException")
+    @TestCaseName("Should return IllegalAccessException when {0} passed")
+    public void testException(int amountFrom, int value) {
+        bankAccountFrom = new Account(amountFrom);
 
-
-
+        assertThatThrownBy(() -> paymentService.transferMoney(bankAccountFrom, bankAccountTo, value))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("I'm very sorry, but you don't have enough money...");
     }
 
 }
