@@ -32,15 +32,7 @@ public class PaymentServiceTest {
                 {-50, -30, -80, 0, 30},
         };
     }
-
-    private Object[][] partametersForTestingException() {
-        return new Object[][] {
-                {100, 30, 80, 50, 20},
-                {0, 10, -50, 60, 50},
-                {200, 100, 200, 100, 0},
-                {-50, -30, -80, 0, 30},
-        };
-    }
+    
 
 
     @Test
