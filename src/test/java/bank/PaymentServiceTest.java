@@ -82,4 +82,18 @@ public class PaymentServiceTest {
         thrown.expectMessage("Wrong currency");
         paymentService.transferMoney(bankAccountFrom, bankAccountTo, transferValue);
     }
+    @Test
+    public void shouldThrowExecptionWhenAccountsHaveSameCurrencyButTransferIsDifferent() {
+        Instrument balanceFirst = new Instrument(649, Currency.PLN);
+        Instrument balanceSecond = new Instrument(1249, Currency.PLN);
+        Instrument transferValue = new Instrument(3423, Currency.EUR);
+        bankAccountFrom = new Account(balanceFirst);
+        bankAccountTo = new Account(balanceSecond);
+
+
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Wrong transfer currency");
+        paymentService.transferMoney(bankAccountFrom, bankAccountTo, transferValue);
+    }
+    
 }
