@@ -22,10 +22,13 @@ public class PaymentServiceTest {
     Account bankAccountFrom;
     PaymentService paymentService;
     Instrument instrument;
+    TransactionDatabase transactionDatabase;
 
     @Before
     public void setUp() {
         paymentService = new PaymentService();
+        transactionDatabase = mock(TransactionDatabase.class);
+        paymentService.setTransactionDatabase(transactionDatabase);
     }
 
     private Object[][] partametersForTestingInInput() {
@@ -139,9 +142,6 @@ public class PaymentServiceTest {
 
     @Test
     public void shouldCallTransactionDatabaseWhenTransferMoney() {
-
-        TransactionDatabase transactionDatabase = mock(TransactionDatabase.class);
-        paymentService.setTransactionDatabase(transactionDatabase);
 
         Instrument instrument = new Instrument(600, PLN);
         Account from = new Account(new Instrument(600, PLN));
