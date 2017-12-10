@@ -72,6 +72,7 @@ public class PaymentServiceTest {
 
         instrument = new Instrument(howMuch, currencies);
         bankAccountFrom = new Account(new Instrument(amountFrom, currenciesFrom));
+        bankAccountTo = new Account(new Instrument(0, currenciesFrom));
 
         assertThatThrownBy(() -> paymentService.transferMoney(bankAccountFrom, bankAccountTo, instrument))
                 .isInstanceOf(IllegalArgumentException.class)
