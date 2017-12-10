@@ -97,6 +97,7 @@ public class PaymentServiceTest {
         assertThatThrownBy(() -> paymentService.checkCurrencies(bankAccountFrom, bankAccountTo, instrument))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("I'm very sorry, incorrect currencies...");
+        verify(transactionStorage, never()).save(any(Account.class), any(Account.class), any(Instrument.class));
     }
 
     @Test
