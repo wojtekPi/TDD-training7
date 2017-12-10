@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import static bank.Currencies.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.in;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -134,5 +135,19 @@ public class PaymentServiceTest {
         assertThat(to.instrument.amount).isEqualTo(150);
         assertThat(to.instrument.curency).isEqualTo(EUR);
         verify(exchangeService, times(1)).convert(instrumentToTransfer, EUR);
+    }
+
+    @Test
+    public void shouldCallTransactionDatabaseWhenTransferMoney() {
+
+        TransactionDatabase transactionDatabase = mock(TransactionDatabase.class);
+        paymentService.setTransactionDatabase(transactionDatabase);
+
+        Instrument instrument = new Instrument(600, PLN);
+        Account from = new Account(new Instrument(600, PLN));
+        Account to = new Account(new Instrument(50, EUR));
+
+        paymentService.transferMoney(from, to, instrument);
+        verify(transactionDatabase).save(from, to, instrument);
     }
 }
