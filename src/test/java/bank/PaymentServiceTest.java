@@ -24,6 +24,9 @@ public class PaymentServiceTest {
         paymentService = new PaymentService();
     }
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private Object[][] partametersForTestingInInput() {
         return new Object[][]{
                 {100, 30, 80, 50, 20},
@@ -41,41 +44,42 @@ public class PaymentServiceTest {
             amountToAfter, int value) {
         Instrument balanceFirst = new Instrument(amountFrom, Currency.PLN);
         Instrument balanceSecond = new Instrument(amountTo, Currency.PLN);
+        Instrument transferValue = new Instrument(value, Currency.PLN);
         bankAccountFrom = new Account(balanceFirst);
         bankAccountTo = new Account(balanceSecond);
 
-        paymentService.transferMoney(bankAccountFrom, bankAccountTo, value);
+        paymentService.transferMoney(bankAccountFrom, bankAccountTo, transferValue);
 
         assertThat(bankAccountFrom.instrument.amount).isEqualTo(amountFromAfter);
         assertThat(bankAccountTo.instrument.amount).isEqualTo(amountToAfter);
     }
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void shouldThrowExecptionWhenBalanaceIsTooSmall() {
         Instrument balanceFirst = new Instrument(-649, Currency.PLN);
         Instrument balanceSecond = new Instrument(1249, Currency.EUR);
+        Instrument transferValue = new Instrument(1234, Currency.PLN);
         bankAccountFrom = new Account(balanceFirst);
         bankAccountTo = new Account(balanceSecond);
 
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You don't have enough money");
-        paymentService.transferMoney(bankAccountFrom, bankAccountTo, 300);
+        paymentService.transferMoney(bankAccountFrom, bankAccountTo, transferValue);
     }
 
     @Test
     public void shouldThrowExecptionWhenWrongCurrency() {
-        Instrument balanceFirst = new Instrument(-649, Currency.PLN);
+        Instrument balanceFirst = new Instrument(649, Currency.PLN);
         Instrument balanceSecond = new Instrument(1249, Currency.USD);
+        Instrument transferValue = new Instrument(3423, Currency.EUR);
         bankAccountFrom = new Account(balanceFirst);
         bankAccountTo = new Account(balanceSecond);
 
 
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You don't have enough money");
-        paymentService.transferMoney(bankAccountFrom, bankAccountTo, 300);
+        thrown.expectMessage("Wrong currency");
+        paymentService.transferMoney(bankAccountFrom, bankAccountTo, transferValue);
     }
 }
