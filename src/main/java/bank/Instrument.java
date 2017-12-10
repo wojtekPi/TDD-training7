@@ -2,30 +2,11 @@ package bank;
 
 public class Instrument {
 
-    int instrument;
-    Currency currency;
+    int amount;
+    Currencies curency;
 
-    public Instrument(int instrument, Currency currency) {
-
-        this.instrument = instrument;
-        this.currency = currency;
+    public Instrument(int amount, Currencies curency) {
+        this.amount = amount;
+        this.curency = curency;
     }
-
-    public int getInstrument() {
-        return instrument;
-    }
-
-    public void setInstrument(int instrument) {
-        this.instrument = instrument;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-
 }
