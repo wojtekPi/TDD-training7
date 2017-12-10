@@ -3,6 +3,7 @@ package bank;
 public class PaymentService {
 
     private ExchangeService exchangeService;
+    private TransactionStorage transactionStorage;
 
     void transferMoney(Account from, Account to, Instrument instrument)  {
         checkCurrencies(from, to, instrument);
@@ -15,6 +16,7 @@ public class PaymentService {
         if(from.instrument.amount >= -500) {
             from.instrument.amount -= instrument.amount;
             to.instrument.amount += moneyToAddToSeccondAccount.amount;
+            transactionStorage.save(from, to, moneyToAddToSeccondAccount);
         } else throw new IllegalArgumentException("I'm very sorry, but you don't have enough money...");
     }
 
@@ -25,5 +27,9 @@ public class PaymentService {
 
     public void setExchangeService(ExchangeService exchangeService) {
         this.exchangeService = exchangeService;
+    }
+
+    public void setTransactionStorage(TransactionStorage transactionStorage) {
+        this.transactionStorage = transactionStorage;
     }
 }

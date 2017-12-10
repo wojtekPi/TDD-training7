@@ -21,10 +21,13 @@ public class PaymentServiceTest {
     Account bankAccountFrom;
     PaymentService paymentService;
     Instrument instrument;
+    TransactionStorage transactionStorage;
 
     @Before
     public void setUp() {
         paymentService = new PaymentService();
+        transactionStorage = mock(TransactionStorage.class);
+        paymentService.setTransactionStorage(transactionStorage);
     }
 
     private Object[][] partametersForTestingInInput() {
@@ -94,6 +97,7 @@ public class PaymentServiceTest {
         assertThatThrownBy(() -> paymentService.checkCurrencies(bankAccountFrom, bankAccountTo, instrument))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("I'm very sorry, incorrect currencies...");
+        verify(transactionStorage, never()).save(any(Account.class), any(Account.class), any(Instrument.class));
     }
 
     @Test
@@ -134,5 +138,16 @@ public class PaymentServiceTest {
         assertThat(to.instrument.amount).isEqualTo(150);
         assertThat(to.instrument.curency).isEqualTo(EUR);
         verify(exchangeService, times(1)).convert(instrumentToTransfer, EUR);
+    }
+
+    @Test
+    public void shouldCallTransactionDatabaseWhenTransferMoney() {
+
+        Instrument instrument = new Instrument(600, PLN);
+        Account from = new Account(new Instrument(600, PLN));
+        Account to = new Account(new Instrument(50, EUR));
+
+        paymentService.transferMoney(from, to, instrument);
+        verify(transactionStorage).save(from, to, instrument);
     }
 }
