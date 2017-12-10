@@ -4,8 +4,12 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import junitparams.naming.TestCaseName;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static bank.Currencies.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,16 +21,22 @@ import static org.mockito.Mockito.*;
 @RunWith(JUnitParamsRunner.class)
 public class PaymentServiceTest {
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule(); //recommended way
+
     Account bankAccountTo;
     Account bankAccountFrom;
     PaymentService paymentService;
     Instrument instrument;
+
+    @Mock
     TransactionStorage transactionStorage;
 
     @Before
     public void setUp() {
+//        MockitoAnnotations.initMocks(this); //old way
         paymentService = new PaymentService();
-        transactionStorage = mock(TransactionStorage.class);
+//        transactionStorage = mock(TransactionStorage.class);
         paymentService.setTransactionStorage(transactionStorage);
     }
 
