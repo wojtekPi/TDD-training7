@@ -7,9 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static bank.Currencies.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class PaymentServiceTest {
@@ -20,32 +23,31 @@ public class PaymentServiceTest {
     Instrument instrument;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         paymentService = new PaymentService();
     }
 
     private Object[][] partametersForTestingInInput() {
-        return new Object[][] {
-                {100, Currencies.USD, 30, Currencies.USD, 80, 50, 20, Currencies.USD},
-                {0, Currencies.USD, 10, Currencies.USD, -50, 60, 50, Currencies.USD},
-                {200, Currencies.USD, 100, Currencies.USD, 200, 100, 0, Currencies.USD},
-                {-50, Currencies.USD, -30, Currencies.USD, -80, 0, 30, Currencies.USD},
+        return new Object[][]{
+                {100, USD, 30, USD, 80, 50, 20, USD},
+                {0, USD, 10, USD, -50, 60, 50, USD},
+                {200, USD, 100, USD, 200, 100, 0, USD},
+                {-50, USD, -30, USD, -80, 0, 30, USD},
         };
     }
 
     private Object[][] parametersForTestingException() {
-        return new Object[][] {
-                {-550, Currencies.USD, 100, Currencies.USD},
-                {-750, Currencies.USD, 100, Currencies.USD},
-                {-850, Currencies.USD, 100, Currencies.USD},
+        return new Object[][]{
+                {-550, USD, 100, USD},
+                {-750, USD, 100, USD},
+                {-850, USD, 100, USD},
         };
     }
 
     private Object[][] parametersForTestingCurrenciesException() {
-        return new Object[][] {
-                {550, Currencies.EUR, 200, Currencies.USD, 100, Currencies.USD},
-                {750, Currencies.USD, 120, Currencies.PLN, 100, Currencies.USD},
-                {850, Currencies.PLN, 80, Currencies.PLN, 100, Currencies.USD},
+        return new Object[][]{
+                {550, EUR, 200, USD, 100, USD},
+                {850, PLN, 80, PLN, 100, USD},
         };
     }
 
@@ -92,5 +94,45 @@ public class PaymentServiceTest {
         assertThatThrownBy(() -> paymentService.checkCurrencies(bankAccountFrom, bankAccountTo, instrument))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("I'm very sorry, incorrect currencies...");
+    }
+
+    @Test
+    public void shouldCallExchengeServiceWhenDifferentCurrencyInToAccount() {
+        // old way of testing - don't do that - use Mockito instead
+        ExchangeService exchangeService = new DummyExchangeService();
+        paymentService.setExchangeService(exchangeService);
+
+        Account from = new Account(new Instrument(600, PLN));
+        Account to = new Account(new Instrument(50, EUR));
+        paymentService.transferMoney(from,
+                to,
+                new Instrument(400, PLN));
+
+        assertThat(from.instrument.amount).isEqualTo(200);
+        assertThat(from.instrument.curency).isEqualTo(PLN);
+        assertThat(to.instrument.amount).isEqualTo(150);
+        assertThat(to.instrument.curency).isEqualTo(EUR);
+    }
+
+    @Test
+    public void shouldCallExchengeServiceWhenDifferentCurrencyInToAccountUsingMockito() {
+        ExchangeService exchangeService = mock(ExchangeService.class);
+        paymentService.setExchangeService(exchangeService);
+
+        Instrument instrumentFrom = new Instrument(600, PLN);
+        Instrument instrumentToTransfer = new Instrument(400, PLN);
+        Account from = new Account(instrumentFrom);
+        Account to = new Account(new Instrument(50, EUR));
+
+        when(exchangeService.convert(eq(instrumentToTransfer), any(Currencies.class)))
+                .thenReturn(new Instrument(100, EUR));
+
+        paymentService.transferMoney(from, to, instrumentToTransfer);
+
+        assertThat(from.instrument.amount).isEqualTo(200);
+        assertThat(from.instrument.curency).isEqualTo(PLN);
+        assertThat(to.instrument.amount).isEqualTo(150);
+        assertThat(to.instrument.curency).isEqualTo(EUR);
+        verify(exchangeService, times(1)).convert(instrumentToTransfer, EUR);
     }
 }
