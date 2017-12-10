@@ -80,4 +80,11 @@ public class PaymentServiceTest {
                 .hasMessage("I'm very sorry, but you don't have enough money...");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionWhenNotEnoughMoneyUsingBasicExceptionTests(){
+        bankAccountFrom = new Account(-501);
+
+        paymentService.transferMoney(bankAccountFrom, null, 30);
+    }
+
 }
